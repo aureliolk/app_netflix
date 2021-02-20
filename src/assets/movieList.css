@@ -1,0 +1,41 @@
+.list{
+    margin-top: -150px;
+}
+
+.movie-content{
+    margin-bottom: 30px;
+}
+
+.movie-content h2{
+    margin: 0;
+    margin-left: 30px;
+
+}
+
+.movie-list-area{
+    overflow-x: hidden;
+    padding-left: 30px;
+}
+
+.movie-list{
+    width: 9999999px;
+    display:inline-flex;
+
+}
+
+.movie-list-item{
+    width: 150px;
+}
+
+.movie-list-item img{
+    cursor: pointer;
+    width: 100%;
+    transform: scale(0.9);
+    transition: all ease 0.3s;
+}
+
+.movie-list-item img:hover{
+    transform: scale(1);
+}
+
+

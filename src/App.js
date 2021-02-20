@@ -1,25 +1,51 @@
-import logo from './logo.svg';
-import './App.css';
+import React, {useEffect, useState} from 'react';
+import Header from './components/header'
+import FeatureMovies from './components/featureMovies'
+import Movierow from './components/movieList'
+import db from './data/db';
+import './App.css'
 
-function App() {
+export default ()=>{
+  
+
+  const [featuresData, setFeaturesData] = useState(null);
+  const [movieList, setMovieList] = useState([]); 
+  const [blackHeader, setBlackHeader] = useState (false)
+
+  useEffect(()=>{
+    const loadAll = async () =>{
+      let list = await db.getItemlist();
+      setMovieList(list);
+      // console.log(list)
+
+      let features = list.filter(i=>i.slug === 'original');
+      let random = Math.floor(Math.random() * (features[0].items[0].results.length - 1));
+      let chosem = features[0].items[0].results[random];
+      let chosemInfo = await db.getSingleMovies(chosem.id, 'tv');
+      setFeaturesData(chosemInfo);
+
+    }
+    loadAll();
+  },[]);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+
+    <div className='page'>
+
+      <Header  black={blackHeader}/>
+
+      {featuresData &&
+        <FeatureMovies item={featuresData} />
+      }
+
+      <section className='list'>
+        {movieList.map((item, key)=>(
+          <div key={key}>
+            <Movierow title={item.title} items={item.items} />
+          </div>
+        ))}
+      </section>
     </div>
   );
-}
 
-export default App;
+};
