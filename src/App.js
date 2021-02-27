@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import Header from './components/header'
 import FeatureMovies from './components/featureMovies'
 import Movierow from './components/movieList'
+import {Footer} from './components/footer'
 import db from './data/db';
 import './App.css'
 
@@ -28,6 +29,20 @@ export default ()=>{
     loadAll();
   },[]);
 
+  useEffect(()=>{
+    const scrollListner = () =>{
+      if(window.scrollY > 10){
+        setBlackHeader(true)
+      } else {
+        setBlackHeader(false)
+      }
+    }
+    window.addEventListener('scroll',scrollListner)
+    return ()=>{
+      window.removeEventListener('scroll',scrollListner)
+    }
+  },[])
+
   return (
 
     <div className='page'>
@@ -45,6 +60,7 @@ export default ()=>{
           </div>
         ))}
       </section>
+      <Footer />    
     </div>
   );
 
